@@ -12,18 +12,15 @@ function errorHandler(err) {
 // 自動ブラウザリロード
 gulp.task('browser-sync', function() {
   browserSync({
-    proxy: {
-      target: 'http://localhost'
-    },
-    port: 9000
+    server: {
+      baseDir: "./" // ルートとなるディレクトリを指定
+    }
   });
 });
 
 // Javascriptへのビルド
 // ES6かつJSXなファイル群をbuild/bundle.jsへ変換する
 gulp.task('build', function() {
-
-  var fs = require("fs");
   var browserify = require("browserify");
   browserify("./src/entry.js")
   .transform("babelify", {presets: ["es2015", "react"]})
@@ -36,4 +33,4 @@ gulp.task('build', function() {
 });
 
 // gulpコマンドで起動したときのデフォルトタスク
-gulp.task('default', ['build']);
+gulp.task('default', ['build', 'browser-sync']);
